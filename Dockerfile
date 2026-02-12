@@ -2,13 +2,14 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
+# Copy everything
 COPY . .
 
-# Give execute permission to mvnw
-RUN chmod +x mvnw
+# Give execute permission to both mvnw and mvnw.cmd just in case
+RUN chmod +x ./mvnw
 
-# Build the project
-RUN ./mvnw clean package -DskipTests
+# Build using mvnw through sh (safer in some environments)
+RUN sh mvnw clean package -DskipTests
 
 EXPOSE 8080
 
